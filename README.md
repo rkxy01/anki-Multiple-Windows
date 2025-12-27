@@ -1,4 +1,12 @@
 # Open multiple instances of the same window
+
+## Fork Status (2025)
+This is a maintained fork of the original add-on, updated to support modern Anki versions (24.x+).
+
+**Key Fixes:**
+*   **PyQt6 Support**: Removed dependency on the deprecated `sip` module, resolving startup crashes on Anki 2.1.50+.
+*   **Bug Fix**: Corrected a `NameError` (`DialogManagerMultiple`) that prevented initialization.
+*   **Stability**: Added smart debounce logic to prevent the "Double Window / Blank Card" bug when triggered by external tools (e.g., AnkiConnect).
 ## Rationale
 May be you want to have a "add" window for each type of Note, so you
 won't have to regularly change note type.
