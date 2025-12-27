@@ -5,9 +5,14 @@
 # Feel free to contribute to this code on https://github.com/Arthur-Milchior/anki-Multiple-Windows
 # Add-on number 354407385 https://ankiweb.net/shared/info/354407385
 from inspect import stack
+import time
 
 import aqt
-import sip
+try:
+    from PyQt6 import sip
+except ImportError:
+    import sip
+
 from anki.hooks import remHook
 from aqt import DialogManager, mw
 from aqt.editcurrent import EditCurrent
@@ -49,6 +54,17 @@ def open(self, name, *args, **kwargs):
     Or reopen the window name, if it should be single in the
     config, and is already opened.
     """
+    # Debounce: If called twice within 0.1s, ignore the second one
+    if not hasattr(self, "_last_open_times"):
+        self._last_open_times = {}
+    
+    now = time.time()
+    last_time = self._last_open_times.get(name, 0)
+    if now - last_time < 0.1:
+        return
+    
+    self._last_open_times[name] = now
+
     function = self.openMany if shouldBeMultiple(name) else self.old_open
     return function(name, *args, **kwargs)
 DialogManager.open = open
