@@ -19,9 +19,9 @@ from aqt.editcurrent import EditCurrent
 
 
 def shouldBeMultiple(name):
-    """Whether window name may have multiple copy.
+    """Whether window name may have multiple copies.
 
-    Ensure that ["multiple"] exsits in the configuration file. The default value being True.
+    Ensure that ["multiple"] exists in the configuration file. The default value being True.
     """
     userOption = mw.addonManager.getConfig(__name__)
     if "multiple" not in userOption:
@@ -42,7 +42,7 @@ old_init = DialogManager.__init__
 
 def __init__(self, oldDialog=None):
     if oldDialog is not None:
-        DialogManagerMultiple._dialogs = oldDialog._dialogs
+        DialogManager._dialogs = oldDialog._dialogs
     old_init(self)
 DialogManager.__init__ = __init__
 
@@ -93,7 +93,7 @@ DialogManager.markClosedMultiple = markClosedMultiple
 # markClosed
 old_markClosed = DialogManager.markClosed
 def markClosed(self, name):
-    """Remove the window of windowName from the set of windows. """
+    """Remove the window of windowName from the set of windows."""
     # If it is a window of kind single, then call super
     # Otherwise, use inspect to figure out which is the caller
     if shouldBeMultiple(name):
